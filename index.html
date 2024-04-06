@@ -25,6 +25,28 @@
       <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formModal">Add Task</button>
     </div>
     <!-- Todo: Create a modal with a form to add tasks -->
+    <!-- added modal from https://getbootstrap.com/docs/5.3/components/modal/#how-it-works and added the id for the target of the button above.  -->
+    <div id="formModal" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Task Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Fill out task information here</p>
+            <p>Task Name: <input type="text" id="name"></p>
+            <p>Date Due: <input type="text" id="datepicker" class="datepicked"></p>
+            <p>Description: </p>
+            <textarea placeholder="Description of task" cols="50" rows="4" id="description"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary save">Save Task</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div class="row swim-lanes text-center justify-content-between">
       <div class="col-12 col-lg-4 d-flex">
         <div id="to-do" class="card border-light mb-3 lane flex-grow-1">
