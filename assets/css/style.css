@@ -19,3 +19,11 @@ body {
 }
 
 
+.checkmeout {
+  background-color: blueviolet;
+  z-index: 10000;
+}
+
+.btn-danger{
+  margin-bottom: 5px;
+}

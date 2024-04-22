@@ -6,16 +6,13 @@ const taskName = document.querySelector("#name");
 const dueDate = document.querySelector("#datepicker");
 const description = document.querySelector("#description");
 const toDo = document.querySelector("#todo-cards")
-
-//date picker for form
-$( function() {
-    $( "#datepicker" ).datepicker();
-  } );
-
+const deleteTask = $(".btn-danger")
+let nextID = 0
 
 // Todo: create a function to generate a unique task id .uniqueId()
 function generateTaskId() {
-
+    nextID++;
+    return nextID;
 }
 
 // Todo: create a function to create a task card
@@ -35,6 +32,7 @@ function createTaskCard() {
         title.textContent = task.title;
         dueDate.textContent = task.dueDate;
         description.textContent = task.description;
+        newdiv.classList.add("checkmeout")
         newdiv.append(title);
         newdiv.append(description);
         newdiv.append(dueDate);
@@ -44,7 +42,10 @@ function createTaskCard() {
         cardDiv.append(newdiv);
 
         $( function() {
-            $( ".drag" ).draggable();
+            $( ".drag" ).draggable({
+                revert: "invalid",
+                stack: ".drag"
+            });
           } );
     }
     
@@ -86,8 +87,6 @@ function handleAddTask(event){
     console.log("task object", task)
     localStorage.setItem("tasks", JSON.stringify(tasks));
 
-    //call createTaskCard function
-    createTaskCard();
 
     // clear form inputs for new task
     taskName.value = "";
@@ -95,16 +94,33 @@ function handleAddTask(event){
     description.value = "";
     };
 
-    
+    refreshPage()
 }
 
 addTask.on("click", handleAddTask);
 
+function refreshPage(){
+    window.location.reload();
+} 
+
 // Todo: create a function to handle deleting a task
+
 function handleDeleteTask(event){
+    const taskIndex = $(this).parent().index();
+    
+    // Retrieve tasks from local storage
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
+    // Remove the task at the specified index
+    tasks.splice(taskIndex, 1);
+
+    // Update the tasks in local storage
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+
+    // Remove the task card from the UI
+    $(this).parent().remove();
 }
-
+$(document).on("click", ".btn-danger", handleDeleteTask)
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
 
@@ -114,3 +130,15 @@ function handleDrop(event, ui) {
 $(document).ready(function () {
     createTaskCard();
 });
+//date picker for form
+$( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+
+
+
+  $(".droppable").droppable({
+    drop: function(event, ui) {    
+      ui.helper.appendTo(this);
+    }
+  });
